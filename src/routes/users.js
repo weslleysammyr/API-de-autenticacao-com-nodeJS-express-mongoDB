@@ -1,20 +1,21 @@
-const express = require("express");
-const router = express.Router();
-const Users = require("../model/user");
 const bcrypt = require("bcrypt");
+const express = require("express");
 const jwt = require("jsonwebtoken");
 
+const Users = require("../model/user");
+
+const router = express.Router();
+
 //Funções auxiliares
-const createUserToken = userId => {
-  return jwt.sign({ id: userId }, process.env.JWT_PASS, {
+const createUserToken = userId =>
+  jwt.sign({ id: userId }, process.env.JWT_PASS, {
     expiresIn: process.env.JWT_EXPIRES_IN
   });
-};
 
 router.get("/", async (req, res) => {
   try {
     const users = await Users.find({});
-    return res.send(users);
+    return res.status(200).send(users);
   } catch (err) {
     return res.status(500).send({ error: "Erro na consulta de usuários!" });
   }
@@ -31,8 +32,7 @@ router.post("/create", async (req, res) => {
     user.password = undefined;
     return res.status(201).send({ user, token: createUserToken(user.id) });
   } catch (err) {
-    console.error(err);
-    return res.status(500).send({ error: "Erro ao buscar usuário!" });
+    return res.status(500).send({ error: "Erro ao criar usuário!" });
   }
 });
 
@@ -48,9 +48,12 @@ router.post("/auth", async (req, res) => {
     const pass_ok = await bcrypt.compare(password, user.password);
     if (!pass_ok)
       return res.status(401).send({ error: "Erro ao autenticar usuário!" });
-
     user.password = undefined;
-    return res.status().send({ user, token: createUserToken(user.id) });
+    const response = {
+      user,
+      token: createUserToken(user.id)
+    };
+    return res.status(200).send(response);
   } catch (err) {
     return res.status(500).send({ error: "Erro ao buscar usuário!" });
   }

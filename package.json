@@ -2,10 +2,10 @@
   "name": "api_nodejs",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "src/app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start:dev": "nodemon NODE_ENV=development app.js"
+    "test": "NODE_ENV=test jest --detectOpenHandles",
+    "start:dev": "nodemon NODE_ENV=development src/app.js"
   },
   "author": "Bianca Silva",
   "license": "ISC",
@@ -17,10 +17,12 @@
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.15",
     "mongoose": "^5.5.13",
-    "mysql": "^2.17.1",
     "npm-git-install": "^0.3.0"
   },
   "devDependencies": {
-    "nodemon": "^1.19.1"
+    "jest": "^24.8.0",
+    "jest-cli": "^24.8.0",
+    "nodemon": "^1.19.1",
+    "supertest": "^4.0.2"
   }
 }
