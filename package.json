@@ -22,6 +22,7 @@
   "devDependencies": {
     "jest": "^24.8.0",
     "jest-cli": "^24.8.0",
+    "mockingoose": "^2.13.2",
     "nodemon": "^1.19.1",
     "supertest": "^4.0.2"
   }
